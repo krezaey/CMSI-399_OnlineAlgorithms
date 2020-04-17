@@ -4,15 +4,18 @@
  * @return {boolean}
  */
 var isValid = function(s) {
-    var opening = ["(", "{", "["];
-    var closing = [")", "}", "]"];
-    var count = 0;
-    
-    for (let i = 0; i < s.length; i++) {
-        if (opening.includes(s.charAt(i))) { count += 1; }
-        if (closing.includes(s.charAt(i))) { count -= 1; }
+    let pairs = {
+        "(" : ")", 
+        "{" :  "}", 
+        "[" : "]"
     }
-    
-    if (count == 0 || s == "") { return true; }
-    return false;
+    let stack = [];
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] in pairs) { stack.push(s[i]); }
+        else {
+            let current = stack.pop();
+            if(pairs[current] !== s[i]) { return false; }
+        }
+    }
+    return stack.length == 0;
 };
